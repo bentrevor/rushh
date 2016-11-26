@@ -53,13 +53,25 @@ end
 
 describe '#ruby_to_sh' do
   context 'method without arguments' do
-    it 'converts a ruby method to a shell function' do
-      ruby_def = <<DEF
-def meth
-end
-DEF
+    let(:method_name) { "meth" }
+    let(:method_name_with_arg) { "meth(arg)" }
+    let(:path) { "/path/to/defs" }
 
-      expect(ruby_to_sh(ruby_def)).to include("function meth() {")
+    it 'converts a ruby method to a shell function' do
+      expect(ruby_to_sh(method_name, path)).to include("function #{method_name}()")
+    end
+
+    it "doesn't support functions with args yet" do
+      expect(ruby_to_sh(method_name_with_arg, path)).to eq("")
+    end
+
+    it 'executes ruby that will load the methods' do
+      expect(ruby_to_sh(method_name, path)).to include("ruby -e")
+      expect(ruby_to_sh(method_name, path)).to include("load \"#{path}\"")
+    end
+
+    it 'calls the method after loading the ruby definitions' do
+      expect(ruby_to_sh(method_name, path)).to include("; #{method_name}")
     end
   end
 end
