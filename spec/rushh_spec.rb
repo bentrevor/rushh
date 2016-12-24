@@ -61,10 +61,6 @@ describe '#ruby_to_sh' do
       expect(ruby_to_sh(method_name, path)).to include("function #{method_name}()")
     end
 
-    it "doesn't support functions with args yet" do
-      expect(ruby_to_sh(method_name_with_arg, path)).to eq("")
-    end
-
     it 'executes ruby that will load the methods' do
       expect(ruby_to_sh(method_name, path)).to include("ruby -e")
       expect(ruby_to_sh(method_name, path)).to include("load \"#{path}\"")
@@ -72,6 +68,21 @@ describe '#ruby_to_sh' do
 
     it 'calls the method after loading the ruby definitions' do
       expect(ruby_to_sh(method_name, path)).to include("; #{method_name}")
+    end
+  end
+
+  context 'method with arguments' do
+    it 'should execute the ruby method with arguments' do
+      meth = 'meth_with_args'
+      method_name = "#{meth}(args)"
+
+      sh = ruby_to_sh(method_name, 'path')
+
+      expect(sh.match(/; #{meth}\(.*\)/)).not_to be(nil)
+    end
+
+    it 'passes all command line arguments in to the ruby method as a single string' do
+      expect(ruby_to_sh('a(b)', 'path')).to include(%Q[("' $@ '")])
     end
   end
 end

@@ -16,13 +16,20 @@ def main
 end
 
 def ruby_to_sh(func_name, rushh_ruby_defs)
-  return "" if func_name.include?("(")
-
-  <<FUNC
-  function #{func_name}() {
-      ruby -e 'load "#{rushh_ruby_defs}"; #{func_name}'
-  }
+  if func_name.include?("(")
+    func = func_name.split('(').first
+    <<FUNC
+function #{func}() {
+    ruby -e $(echo 'load "#{rushh_ruby_defs}"; #{func}("' $@ '")')
+}
 FUNC
+  else
+    <<FUNC
+function #{func_name}() {
+    ruby -e 'load "#{rushh_ruby_defs}"; #{func_name}'
+}
+FUNC
+  end
 end
 
 def get_functions(ruby_defs)
