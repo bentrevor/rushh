@@ -2,10 +2,10 @@
 
 RUby SHell Helper
 
-### Installation
+#### run specs
 
-`gem install rushh`
+`bundle exec rspec`
 
-### Usage
+#### integration specs
 
-Add `rushh` to your bashrc or zshrc.  This will use your `rushh.rb` file to generate a `rushh.sh` file and source it.
+`source spec/integration/rush_spec.bash` from the project root.

@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+require './lib/rushh.rb'
+
+# require 'pry'
+# binding.pry
+main(ARGV.first)
