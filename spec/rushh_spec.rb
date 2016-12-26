@@ -74,9 +74,8 @@ describe '#ruby_to_sh' do
   context 'method with arguments' do
     it 'should execute the ruby method with arguments' do
       meth = 'meth_with_args'
-      method_name = "#{meth}(args)"
 
-      sh = ruby_to_sh(method_name, 'path')
+      sh = ruby_to_sh("#{meth}(args)", 'path')
 
       expect(sh.match(/; #{meth}\(.*\)/)).not_to be(nil)
     end

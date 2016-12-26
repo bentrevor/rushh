@@ -1,16 +1,21 @@
 class MustDefineMultilineMethods < StandardError; end
 
-def main
-  rushh_dir = "#{ENV['HOME']}/rushh"
-  rushh_ruby_defs = "#{rushh_dir}/in.rb"
-  rushh_sh_defs = "#{rushh_dir}/out.sh"
-
+def main(in_path=nil)
+  if in_path
+    rushh_dir = "#{ENV['HOME']}/rushh"
+    rushh_ruby_defs = in_path
+    rushh_sh_defs = "#{rushh_dir}/spec/integration/out.sh"
+  else
+    rushh_dir = "#{ENV['HOME']}/rushh"
+    rushh_ruby_defs = "#{rushh_dir}/in.rb"
+    rushh_sh_defs = "#{rushh_dir}/out.sh"
+  end
   src = File.read(rushh_ruby_defs)
 
   methods = get_functions(src)
   src = methods.map { |m| ruby_to_sh(m, rushh_ruby_defs) }
 
-  sh_defs = "#!/bin/sh\n\n# This is a generated file - you probably don't need to edit this by hand\n#{src.join}"
+  sh_defs = "#!/usr/bin/env bash\n\n# This is a generated file - you probably don't need to edit this by hand\n#{src.join}"
 
   File.write(rushh_sh_defs, sh_defs)
 end
