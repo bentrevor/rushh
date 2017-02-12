@@ -83,5 +83,11 @@ describe '#ruby_to_sh' do
     it 'passes all command line arguments in to the ruby method as a single string' do
       expect(ruby_to_sh('a(b)', 'path')).to include(%Q[("' $@ '")])
     end
+
+    it 'echos a command wrapped in quotes' do
+      meth = 'meth_with_args'
+
+      expect(ruby_to_sh("#{meth}(args)", 'path')).to include('"$(echo \'load')
+    end
   end
 end

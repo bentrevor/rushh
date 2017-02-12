@@ -8,4 +8,4 @@ RUby SHell Helper
 
 #### integration specs
 
-`source spec/integration/rush_spec.bash` from the project root.
+`./spec/integration/rush_spec.bash` from the project root.

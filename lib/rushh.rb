@@ -25,7 +25,7 @@ def ruby_to_sh(func_name, rushh_ruby_defs)
     func = func_name.split('(').first
     <<FUNC
 function #{func}() {
-    ruby -e $(echo 'load "#{rushh_ruby_defs}"; #{func}("' $@ '")')
+    ruby -e "$(echo 'load "#{rushh_ruby_defs}"; #{func}("' $@ '")')"
 }
 FUNC
   else
