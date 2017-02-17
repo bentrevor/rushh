@@ -1,6 +1,8 @@
 class MustDefineMultilineMethods < StandardError; end
 
-def main(infile: "#{ENV['HOME']}/rushh/in.rb", outfile: "#{ENV['HOME']}/rushh/out.sh")
+def main(infile: nil, outfile: nil)
+  infile ||= "#{ENV['HOME']}/rushh/in.rb"
+  outfile ||= "#{ENV['HOME']}/rushh/out.sh"
   src = File.read(infile)
 
   methods = get_functions(src)

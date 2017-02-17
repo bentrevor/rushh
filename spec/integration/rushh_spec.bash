@@ -6,7 +6,7 @@ function run_spec() {
     output=$(cat ./spec/integration/output)
 
     if [[ "$output" =~ "$contents" ]]; then
-        printf '.'
+        printf "$(tput setaf 10).$(tput sgr0)"
     else
         echo "failed $spec_name"
         exit
