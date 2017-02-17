@@ -1,12 +1,19 @@
 #!/usr/bin/env bash
 
-function fail_spec() {
-    echo "failed $1"
-    exit
+function run_spec() {
+    spec_name=$1
+    contents=$2
+    output=$(cat ./spec/integration/output)
+
+    if [[ "$output" =~ "$contents" ]]; then
+        printf '.'
+    else
+        echo "failed $spec_name"
+        exit
+    fi
 }
 
-# rush_dir=$(git rev-parse --show-toplevel)
-./bin/rushh ./spec/integration/test_in.rb
+./bin/rushh -i ./spec/integration/test_in.rb -o ./spec/integration/out.sh
 
 rm ./spec/integration/output
 touch ./spec/integration/output
@@ -16,9 +23,9 @@ source ./spec/integration/out.sh
 test_method_without_args >> ./spec/integration/output
 test_method_with_args 'one two three' >> ./spec/integration/output
 
-contents=$(cat ./spec/integration/output)
 
-[[ "$contents" =~ "passed method_without_args" ]] || fail_spec 'method without args'
-[[ "$contents" =~ "args: one, two, three" ]] || fail_spec 'method with args'
+run_spec "method without args" "passed method_without_args"
+run_spec "method with args" "args: one, two, three"
 
-echo 'success'
+echo "
+success"
