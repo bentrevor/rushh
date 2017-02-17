@@ -2,9 +2,6 @@
 
 require './lib/rushh.rb'
 
-# require 'pry'
-# binding.pry
-
 infile_flag_index = ARGV.index('-i')
 outfile_flag_index = ARGV.index('-o')
 infile_arg = infile_flag_index && ARGV[infile_flag_index + 1]

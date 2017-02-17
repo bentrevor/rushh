@@ -15,13 +15,12 @@ function run_spec() {
 
 ./bin/rushh -i ./spec/integration/test_in.rb -o ./spec/integration/out.sh
 
-rm ./spec/integration/output
-touch ./spec/integration/output
+echo '' > ./spec/integration/output
 
 source ./spec/integration/out.sh
 
 test_method_without_args >> ./spec/integration/output
-test_method_with_args 'one two three' >> ./spec/integration/output
+test_method_with_args one two three >> ./spec/integration/output
 
 
 run_spec "method without args" "passed method_without_args"

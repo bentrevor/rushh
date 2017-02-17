@@ -1,2 +1,4 @@
 in.rb
 out.sh
+spec/integration/out.sh
+spec/integration/output

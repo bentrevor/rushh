@@ -72,22 +72,17 @@ describe '#ruby_to_sh' do
   end
 
   context 'method with arguments' do
-    it 'should execute the ruby method with arguments' do
-      meth = 'meth_with_args'
+    let(:meth) { 'funk' }
+    let(:path) { '/path/to/somewhere' }
+    let(:sh) { ruby_to_sh("#{meth}(args)", path) }
 
-      sh = ruby_to_sh("#{meth}(args)", 'path')
-
-      expect(sh.match(/; #{meth}\(.*\)/)).not_to be(nil)
+    it 'executes ruby that will load the methods' do
+      expect(sh).to include('ruby -e')
+      expect(sh).to include("load \"#{path}\"")
     end
 
-    it 'passes all command line arguments in to the ruby method as a single string' do
-      expect(ruby_to_sh('a(b)', 'path')).to include(%Q[("' $@ '")])
-    end
-
-    it 'echos a command wrapped in quotes' do
-      meth = 'meth_with_args'
-
-      expect(ruby_to_sh("#{meth}(args)", 'path')).to include('"$(echo \'load')
+    it 'uses echo to pass in all command line arguments in to the ruby method as a single space-separated string' do
+      expect(sh).to include(%Q[; #{meth}("' "$(echo $@)" '")])
     end
   end
 end
