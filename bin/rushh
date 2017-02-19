@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require './lib/rushh.rb'
+require_relative '../lib/rushh.rb'
 
 infile_flag_index = ARGV.index('-i')
 outfile_flag_index = ARGV.index('-o')
